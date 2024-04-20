@@ -3,19 +3,16 @@ import './index.css'
 import HistoryItem from '../HistoryItem'
 
 class BrowserHistory extends Component {
-  list = this.props
-
-  state = {searchInput: '', userList: this.list}
+  state = {searchInput: ''}
 
   onUserInput = e => {
     this.setState({searchInput: e.target.value})
   }
 
   render() {
-    const {searchInput, userList} = this.state
-    const {initialHistoryList} = userList
+    const {searchInput} = this.state
+    const {initialHistoryList} = this.props
     console.log(searchInput)
-    console.log(userList)
     console.log(initialHistoryList)
 
     return (
@@ -41,7 +38,7 @@ class BrowserHistory extends Component {
           </div>
         </div>
         <div className="bg-footer">
-          {userList.map(eachItem => (
+          {initialHistoryList.map(eachItem => (
             <HistoryItem eachItem={eachItem} key={eachItem.id} />
           ))}
         </div>
