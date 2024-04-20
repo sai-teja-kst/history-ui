@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 15px;
+  list-style: none;
 }
 
 .item-bg-card {

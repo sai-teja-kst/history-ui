@@ -3,24 +3,50 @@ import './index.css'
 import HistoryItem from '../HistoryItem'
 
 class BrowserHistory extends Component {
-  state = {searchInput: ''}
+  state = {
+    searchInput: '',
+    userList: [],
+  }
+
+  componentDidMount() {
+    const {initialHistoryList} = this.props
+    this.setState({searchInput: '', userList: initialHistoryList})
+  }
+
+  searchResults = () => {
+    const {searchInput, userList} = this.state
+    const updatedList = userList.filter(eachHistory =>
+      eachHistory.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+    return updatedList
+  }
 
   onUserInput = e => {
     this.setState({searchInput: e.target.value})
   }
 
+  updatingState = () => {
+    console.log('update state')
+  }
+
+  deleteItem = id => {
+    const {userList} = this.state
+    const updatedList = userList.filter(eachItem => eachItem.id !== id)
+    this.setState({userList: updatedList})
+  }
+
   render() {
     const {searchInput} = this.state
-    const {initialHistoryList} = this.props
     console.log(searchInput)
-    console.log(initialHistoryList)
+
+    const searchResults = this.searchResults()
 
     return (
       <div className="bg-container">
         <div className="header-div">
           <img
             src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
-            alt="icon"
+            alt="app logo"
             className="logo"
           />
           <div>
@@ -37,11 +63,21 @@ class BrowserHistory extends Component {
             />
           </div>
         </div>
-        <div className="bg-footer">
-          {initialHistoryList.map(eachItem => (
-            <HistoryItem eachItem={eachItem} key={eachItem.id} />
-          ))}
-        </div>
+        {searchResults.length === 0 ? (
+          <div className="bg-no-history">
+            <p>There is no history to show</p>
+          </div>
+        ) : (
+          <ui className="bg-footer">
+            {searchResults.map(eachItem => (
+              <HistoryItem
+                eachItem={eachItem}
+                key={eachItem.id}
+                deleteItem={this.deleteItem}
+              />
+            ))}
+          </ui>
+        )}
       </div>
     )
   }

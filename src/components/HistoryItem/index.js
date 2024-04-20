@@ -1,7 +1,7 @@
 import './index.css'
 
 const HistoryItem = props => {
-  const {eachItem} = props
+  const {eachItem, deleteItem} = props
   const {id, timeAccessed, logoUrl, title, domainUrl} = eachItem
   console.log(id)
   console.log(timeAccessed)
@@ -9,14 +9,18 @@ const HistoryItem = props => {
   console.log(title)
   console.log(domainUrl)
 
+  const onDelete = () => {
+    deleteItem(id)
+  }
+
   return (
-    <div className="item-container">
+    <li className="item-container">
       <div className="item-bg-time">
         <p>{timeAccessed}</p>
       </div>
       <div className="item-bg-card">
         <div className="item-bg-info">
-          <img src={logoUrl} alt={title} />
+          <img src={logoUrl} alt="domain logo" />
         </div>
         <div>
           <p>{title}</p>
@@ -26,13 +30,19 @@ const HistoryItem = props => {
         </div>
       </div>
       <div>
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
-          alt="delete"
+        <button
+          type="button"
+          data-testid="delete"
           className="bg-delete-item"
-        />
+          onClick={onDelete}
+        >
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
+            alt="delete"
+          />
+        </button>
       </div>
-    </div>
+    </li>
   )
 }
 
